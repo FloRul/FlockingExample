@@ -1,12 +1,13 @@
 ﻿using RIT.AI.Flocking;
 using UnityEngine;
 
-public class PursuitManager : BaseSteeringManager
+public class PursuitManager : MonoBehaviour
 {
-    protected override void Start()
+    [SerializeField] FlockingAgent Wanderer;
+    [SerializeField] FlockingAgent Pursuiver;
+    void Start()
     {
-        foreach (var agent in _agents)
-        {
-        }
+        Wanderer.AddFlocking(new WanderStrategy(Wanderer, 1, new WanderParams(Vector3.zero, 10, .2f, 1f, 1f)));
+        Pursuiver.AddFlocking(new PursuitStrategy(Pursuiver, 1f, Wanderer));
     }
 }

@@ -9,7 +9,7 @@
         {
             foreach (var agent in _agents)
             {
-                agent.AddFlocking(new FleeStrategy(agent, 1, _generator.Target, 5));
+                agent.AddFlocking(new FleeTargetStrategy(agent, 1, 5,_generator.Target));
             }
         }
     }

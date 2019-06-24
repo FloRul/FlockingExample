@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 702c1f0e866638d42b9e002ede0b141c, type: 3}
-  m_Name: Boid setting
+  m_Name: SlowBoid
   m_EditorClassIdentifier: 
   maxSpeed: 5
   slowingRadius: 1
