@@ -14,7 +14,7 @@ public class LeaderFollowingManager : MonoBehaviour
         for (int i = 0; i < Followers.Length; i++)
         {
             var follower = Followers[i];
-            follower.AddFlocking(new LeaderFollowing(follower, 1, Leader, 1));
+            //follower.AddFlocking(new LeaderFollowing(follower, 1, Leader, 1));
         }
     }
 
