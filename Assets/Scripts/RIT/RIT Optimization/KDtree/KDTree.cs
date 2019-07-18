@@ -10,12 +10,29 @@
 
         public KDTree(Vector3[] points)
         {
-            Insert(ref Root, points);
+            Root = Insert(points, 0);
         }
 
-        public void Insert(ref Node root, Vector3[] points)
+        public static Node Insert(Vector3[] points, in int currentDepth)
         {
-            root = Node.Insert(points, 0);
+            var node = new Node();
+            node.SplitAxis = currentDepth % 3;
+
+            if (points.Length == 0)
+            {
+                return null;
+            }
+            else
+            {
+                points = points.OrderBy(point => point[node.SplitAxis]).ToArray();
+                node.heldPoints = points;
+
+                int medianLeft = (points.Length + 1) / 2 - 1;
+                node.Location = points[medianLeft];
+
+                (node.LeftNode, node.RightNode) = (Insert(points.Take(medianLeft).ToArray(), currentDepth + 1), Insert(points.Skip(medianLeft + 1).ToArray(), currentDepth + 1));
+            }
+            return node;
         }
 
         public static Vector3[] FindNearestPositionsWithinSqrRadius(ref Vector3[] points, in Vector3 query, in float sqrSearchRadius)
@@ -24,7 +41,7 @@
             KDTree model = new KDTree(points);
             NearestNeighborsWithinSqrRadius(query, model.Root, sqrSearchRadius, ref neighbors);
 
-            return neighbors.Select(x=>x.Location).ToArray();
+            return neighbors.Select(x => x.Location).ToArray();
         }
 
         public static Vector3 FindNearestPosition(ref Vector3[] points, in Vector3 query)
@@ -108,36 +125,14 @@
 
         static Node Sibling(in Node child, in Node parent)
             => ReferenceEquals(parent.LeftNode, child) ? parent.RightNode : parent.LeftNode;
-    }
 
-    public class Node
-    {
-        Vector3[] heldPoints;
-        public int SplitAxis    { get; private set; }
-        public Vector3 Location { get; private set; }
-        public Node LeftNode    { get; private set; }
-        public Node RightNode   { get; private set; }
-
-        internal static Node Insert(Vector3[] points, in int currentDepth)
+        public class Node
         {
-            var node = new Node();
-            node.SplitAxis = currentDepth % 3;
-
-            if (points.Length == 0)
-            {
-                return null;
-            }
-            else
-            {
-                points = points.OrderBy(point => point[node.SplitAxis]).ToArray();
-                node.heldPoints = points;
-
-                int medianLeft = (points.Length + 1) / 2 - 1;
-                node.Location = points[medianLeft];
-
-                (node.LeftNode, node.RightNode) = (Insert(points.Take(medianLeft).ToArray(), currentDepth + 1), Insert(points.Skip(medianLeft+1).ToArray(), currentDepth + 1));
-            }
-            return node;
+            public Vector3 Location     { get; set; }
+            public Vector3[] heldPoints { get; set; }
+            public int SplitAxis        { get; set; }
+            public Node LeftNode        { get; set; }
+            public Node RightNode       { get; set; }
         }
     }
 }
