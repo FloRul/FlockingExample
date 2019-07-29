@@ -13,7 +13,7 @@
             Root = Insert(points, 0);
         }
 
-        public static Node Insert(Vector3[] points, in int currentDepth)
+        public Node Insert(Vector3[] points, in int currentDepth)
         {
             var node = new Node();
             node.SplitAxis = currentDepth % 3;
@@ -35,19 +35,17 @@
             return node;
         }
 
-        public static Vector3[] FindNearestPositionsWithinSqrRadius(ref Vector3[] points, in Vector3 query, in float sqrSearchRadius)
+        public Vector3[] FindNearestPositionsWithinSqrRadius(in Vector3 query, in float sqrSearchRadius)
         {
             List<Node> neighbors = new List<Node>();
-            KDTree model = new KDTree(points);
-            NearestNeighborsWithinSqrRadius(query, model.Root, sqrSearchRadius, ref neighbors);
+            NearestNeighborsWithinSqrRadius(query, Root, sqrSearchRadius, ref neighbors);
 
             return neighbors.Select(x => x.Location).ToArray();
         }
 
-        public static Vector3 FindNearestPosition(ref Vector3[] points, in Vector3 query)
+        public Vector3 FindNearestPosition(in Vector3 query)
         {
-            KDTree model = new KDTree(points);
-            return NearestNeighbor(query, model.Root).Location;
+            return NearestNeighbor(query, Root).Location;
         }
 
         static Node NearestNeighbor(in Vector3 query, in Node root, double sqrBestDistance = Mathf.Infinity, Node nearestNode = null)

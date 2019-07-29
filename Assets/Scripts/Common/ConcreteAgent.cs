@@ -11,9 +11,9 @@ public class ConcreteAgent : FlockingAgent
     public override float SlowingRadius => _settings.slowingRadius;
     public override float Mass => Mathf.Abs(_settings.mass);
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(_transform.position, _transform.position + Velocity.normalized * 2);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawLine(_transform.position, _transform.position + Velocity.normalized * 2);
+    //}
 }
