@@ -11,4 +11,12 @@ public class WanderManager : BaseSteeringManager
             agent.AddFlocking(new WanderStrategy(agent, 1, new WanderParams(Vector3.zero, 100, .1f, 1, 1)));
         }
     }
+
+    private void Update()
+    {
+        foreach (var b in _agents)
+        {
+            b.UpdateSteering();
+        }
+    }
 }

@@ -18,17 +18,17 @@ public class LeaderFollowingManager : MonoBehaviour
         for (int i = 0; i < Followers.Length; i++)
         {
             var follower = Followers[i];
-            follower.AddFlocking(new LeaderFollowing(follower, 1, Leader, 1, _neighborQuerier, 5));
+            follower.AddFlocking(new LeaderFollowing(follower, 1, Leader, 1, 1, _neighborQuerier, 2));
         }
     }
 
     void Update()
     {
-        _neighborQuerier.UpdateWorld();
         Leader.UpdateSteering();
         foreach(FlockingAgent boid in Followers)
         {
             boid.UpdateSteering();
         }
+        _neighborQuerier.UpdateWorld();
     }
 }
